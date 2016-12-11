@@ -1,0 +1,18 @@
+nexus-data:
+  image: sonatype/nexus
+  entrypoint:
+      - echo
+      - "data-only container for Nexus"
+  volumes:
+    - /storage/nexus:/sonatype-work
+nexus:
+  image: sonatype/nexus
+  volumes_from:
+    - nexus-data
+  restart: always
+  environment:
+    - CONTEXT_PATH=/
+    - VIRTUAL_HOST=nexus.three-five.bshaw.io,nexus.local
+    - VIRTUAL_PORT=8081
+    - LETSENCRYPT_HOST=nexus.three-five.bshaw.io
+    - LETSENCRYPT_EMAIL=brian.b.shaw@gmail.com
